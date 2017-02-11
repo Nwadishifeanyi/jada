@@ -1,7 +1,7 @@
 package fr.epita.iam.datamodel;
 
 public class Attribute {
-	private String identityID;
+	private String attributeID;
 	private String name;
 	private String value;
 	
@@ -11,17 +11,17 @@ public class Attribute {
 	 * @param name
 	 * @param value
 	 */
-	public Attribute(String identityID, String name,  String value) {
+	public Attribute(String attributeID, String name,  String value) {
 		super();
-		this.identityID = identityID;
+		this.attributeID = attributeID;
 		this.name = name;
 		this.value = value;
 	}
-	public String getIdentityID() {
-		return identityID;
+	public String getattributeID() {
+		return attributeID;
 	}
-	public void setIdentityID(String identityID) {
-		this.identityID = identityID;
+	public void setattributeID(String attributeID) {
+		this.attributeID = attributeID;
 	}
 	public String getName() {
 		return name;
@@ -42,13 +42,16 @@ public class Attribute {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((identityID == null) ? 0 : identityID.hashCode());
+		result = prime * result + ((attributeID == null) ? 0 : attributeID.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
+		if (obj == null){
+			return false;
+		}
 		Attribute other = (Attribute) obj;
 	
 		if (name == null) {
@@ -62,7 +65,7 @@ public class Attribute {
 	}
 	@Override
 	public String toString() {
-		return "Attribute [identityID=" + identityID + ", name=" + name + ", value=" + value + "]";
+		return "Attribute [attributeID=" + attributeID + ", name=" + name + ", value=" + value + "]";
 	}
 	
 	

@@ -7,12 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import fr.epita.iam.datamodel.Address;
 import fr.epita.iam.datamodel.Attribute;
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.exceptions.DAOInitializationException;
@@ -37,24 +40,34 @@ public class IdentityDAO implements DAO<Identity> {
 		
 		connection = Connector.getConnection();
 		try {
-			String sql = "insert into IDENTITIES (DISPLAY_NAME, EMAIL, BIRTHDAY)"
-					+" values (?, ?, ?)";
+			String sql = "insert into IDENTITIES (DISPLAY_NAME, EMAIL, BIRTHDAY, ISADMIN)"
+					+" values (?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql,
 											Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getDisplayName());
 			statement.setString(2, entity.getEmail());
 			statement.setDate(3, entity.getBirthday());
+			int isAdmin = (entity.isAdmin())?1:0;
+			statement.setInt(4, isAdmin);
 			statement.executeUpdate();
 			ResultSet result = statement.getGeneratedKeys();
 			AttributeDAO  attributeDAO = new AttributeDAO();
 			if(result.next())
             {
+				//create associated attributes
 				String identityID = result.getString(1);
 				for (Map.Entry<String, String> entry :entity.getAttributes().entrySet()){
 					attributeDAO.create(new Attribute(identityID,
 							entry.getKey(), entry.getValue()));
 				}
+				//create associated addresses
+				AddressDAO addressDAO = new AddressDAO();
+				for (Address entry : entity.getAddresses()){
+					entry.setIdentityID(identityID);
+					addressDAO.create(entry);
+				}
             }
+			
 			Connector.releaseConnection();
 		} catch (SQLException e) {
 			Logger.getLogger(IdentityDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -73,12 +86,15 @@ public class IdentityDAO implements DAO<Identity> {
 			String sql = "update IDENTITIES  set EMAIL=?, "
 					+ "DISPLAY_NAME=?, "
 					+ "BIRTHDAY=?"
+					+ "ISADMIN=?"
 					+" where IDENTITY_ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, entity.getEmail());
 			statement.setString(2, entity.getDisplayName());
 			statement.setDate(3, entity.getBirthday());
-			statement.setString(4, entity.getUid());
+			int isAdmin = (entity.isAdmin())?1:0;
+			statement.setInt(4, isAdmin);
+			statement.setString(5, entity.getUid());
 			statement.executeUpdate();
 			statement.close();
 			sql = "select *  from ATTRIBUTE  where IDENTITY_ID=?";
@@ -126,11 +142,32 @@ public class IdentityDAO implements DAO<Identity> {
 	public void delete(Identity identity) throws DAOInitializationException{
 		connection = Connector.getConnection();
 		try {
-			String sql = "delete from IDENTITIES "
-					+" where IDENTITY_ID=?";
+		
+			String sql = "DELETE  FROM ADDRESS_ATTRIBUTE "
+					+" WHERE ADDRESS_ATTRIBUTE.address_id "
+					+ "in (select address_id from ADDRESS where "
+					+ "ADDRESS.identity_id = ?)";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, identity.getUid());
 			statement.executeUpdate();
+			
+			sql = "delete from ADDRESS "
+					+" where IDENTITY_ID=?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, identity.getUid());
+			
+			sql = "delete from ATTRIBUTE "
+					+" where IDENTITY_ID=?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, identity.getUid());
+			statement.executeUpdate();
+			
+			sql = "delete from IDENTITIES "
+					+" where IDENTITY_ID=?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, identity.getUid());
+			statement.executeUpdate();
+			statement.close();
 			Connector.releaseConnection();
 		} catch (SQLException e) {
 			Logger.getLogger(IdentityDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -158,23 +195,56 @@ public class IdentityDAO implements DAO<Identity> {
 				Date birthday = result.getDate("BIRTHDAY");
 				String name = result.getString("name");
 				String value = result.getString("value");
-				
+				Identity identity;
 					if (identities.containsKey(uid)){
-						Identity identity = identities.get(uid);
+						identity = identities.get(uid);
 						if (name != null){
 							identity.setAttribute(name, value);
 						}
 					}
 					else{
-						Identity identity = new Identity(uid, displayName, email);
+						identity = new Identity(uid, displayName, email);
 						identity.setBirthday(birthday);
 						if (name != null){
 							identity.setAttribute(name, value);
 						}
 						identities.put(identity.getUid(), identity);
 					}
-			
+					sql = "select * from ADDRESS a left join ADDRESS_ATTRIBUTE aa on "
+							+ "a.address_id=a.address_id"
+							+ " where a.identity_id=?";
+					PreparedStatement p = connection.prepareStatement(sql);
+					p.setString(1, uid);
+					ResultSet result1 = p.executeQuery();
+					Map<String,Address> addresses = new HashMap<String, Address>();
+					while(result1.next()){
+						String address_id = result1.getString("address_id");
+						String street = result1.getString("street");
+						String city = result1.getString("city");
+						String zipcode = result1.getString("zipcode");
+						String aname = result1.getString("name");
+						String avalue = result1.getString("value");
+						Address address;
+						if (addresses.containsKey(address_id)){
+							address = addresses.get(address_id);
+						}
+						else{
+							address = new Address(address_id, uid, street, city, zipcode);
+						
+						}
+						address.setAttribute(aname, avalue);
+						addresses.put(address_id, address);
+						
+					}
+					for(Address item : addresses.values()){
+						identity.setAddress(item);
+					}
+					
+					identities.put(identity.getUid(), identity);
+					
+
 			}
+			
 			Connector.releaseConnection();
 		} catch (SQLException e) {
 			Logger.getLogger(IdentityDAO.class.getName()).log(Level.SEVERE, null, e);

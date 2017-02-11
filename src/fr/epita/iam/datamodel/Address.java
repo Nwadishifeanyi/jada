@@ -1,32 +1,31 @@
 package fr.epita.iam.datamodel;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Address {
-	private String uid;
+	private String addressID;
+	private String identityID;
 	private String street;
 	private String city;
 	private String zipCode;
-	private Map<String, String> attributes;
-	/**
-	 * @param uid
-	 * @param street
-	 * @param city
-	 * @param zipCode
-	 */
-	public Address(String uid, String street, String city, String zipCode) {
+	private Map<String, String> attributes = new HashMap<String,String>();
+
+	public Address(String addressID, String identityID, String street, String city, String zipCode) {
 		super();
-		this.uid = uid;
+		this.addressID = addressID;
+		this.identityID = identityID;
 		this.street = street;
 		this.city = city;
 		this.zipCode = zipCode;
+	
 	}
-	public String getUid() {
-		return uid;
+	public String getAddressID() {
+		return addressID;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setAddressID(String addressID) {
+		this.addressID = addressID;
 	}
 	public String getStreet() {
 		return street;
@@ -50,22 +49,27 @@ public class Address {
 		return attributes;
 	}
 	public void setAttribute(String key, String value) {
-		if (!this.attributes.containsKey(key)){
-			attributes.put(key, value);
-		}
+		attributes.put(key, value);
 	}
 	
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
 	}
+	public String getIdentityID() {
+		return identityID;
+	}
+	public void setIdentityID(String identityID) {
+		this.identityID = identityID;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((addressID == null) ? 0 : addressID.hashCode());
 		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((identityID == null) ? 0 : identityID.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
-		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
 		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
 		return result;
 	}
@@ -78,6 +82,11 @@ public class Address {
 		if (getClass() != obj.getClass())
 			return false;
 		Address other = (Address) obj;
+		if (addressID == null) {
+			if (other.addressID != null)
+				return false;
+		} else if (!addressID.equals(other.addressID))
+			return false;
 		if (attributes == null) {
 			if (other.attributes != null)
 				return false;
@@ -88,15 +97,15 @@ public class Address {
 				return false;
 		} else if (!city.equals(other.city))
 			return false;
+		if (identityID == null) {
+			if (other.identityID != null)
+				return false;
+		} else if (!identityID.equals(other.identityID))
+			return false;
 		if (street == null) {
 			if (other.street != null)
 				return false;
 		} else if (!street.equals(other.street))
-			return false;
-		if (uid == null) {
-			if (other.uid != null)
-				return false;
-		} else if (!uid.equals(other.uid))
 			return false;
 		if (zipCode == null) {
 			if (other.zipCode != null)
@@ -107,8 +116,8 @@ public class Address {
 	}
 	@Override
 	public String toString() {
-		return "Address [uid=" + uid + ", street=" + street + ", city=" + city + ", zipCode=" + zipCode
-				+ ", attributes=" + attributes + "]";
+		return "Address [addressID=" + addressID + ", identityID=" + identityID + ", street=" + street + ", city="
+				+ city + ", zipCode=" + zipCode + ", attributes=" + attributes + "]";
 	}
 	
 	

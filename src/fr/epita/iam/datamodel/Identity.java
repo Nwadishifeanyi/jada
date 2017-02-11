@@ -2,6 +2,7 @@ package fr.epita.iam.datamodel;
 
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,8 +11,10 @@ public class Identity {
 	private String displayName;
 	private String email;
 	private Date birthday;
+	private String password;
+	private boolean isAdmin = false;
 	private Map<String, String> attributes = new HashMap<String, String>();
-	private Set<Address> addresses;
+	private Set<Address> addresses = new HashSet<Address>();
 	/**
 	 * @param uid
 	 * @param displayName
@@ -24,6 +27,14 @@ public class Identity {
 		this.email = email;
 	}
 	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	public String getUid() {
 		return uid;
 	}
@@ -56,6 +67,14 @@ public class Identity {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public void setAttribute(String name, String value){
 		this.attributes.put(name, value);
@@ -73,9 +92,8 @@ public class Identity {
 	}
 	
 	public void setAddress(Address address){
-		if (!addresses.contains(address)){
-			addresses.add(address);
-		}
+		address.setIdentityID(this.uid);
+		addresses.add(address);
 	}
 	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
@@ -84,16 +102,28 @@ public class Identity {
 	@Override
 	public String toString() {
 		StringBuilder attributesStr = new StringBuilder();
-		attributesStr.append("Attributes:[");
+		attributesStr.append("Attributes=[");
 		for (Map.Entry<String, String> entry : attributes.entrySet()){
 			attributesStr.append(entry.getKey()+"= "+entry.getValue()+",");
 		}
-		attributesStr.append("]");
+		attributesStr.append("] , ");
+		
+		StringBuilder addressStr = new StringBuilder();
+		attributesStr.append("Addresses=[");
+		int count = 1;
+		for (Address address : addresses){
+			addressStr.append("Address "+ count+" = "+ address+",");
+			count++;
+		}
+		addressStr.append("]");
+		
 		return "Identity [uid=" + this.uid +
+				", isAdmin=" + this.isAdmin +
 				", displayName=" + this.displayName +
 				", email=" + this.email +
-				", birthday= "+this.birthday+
-				", " + attributesStr.toString()+"]";
+				", birthday= "+this.birthday +
+				", " + attributesStr.toString()+
+				""+ addressStr.toString()+"]";
 	}
 	
 	
