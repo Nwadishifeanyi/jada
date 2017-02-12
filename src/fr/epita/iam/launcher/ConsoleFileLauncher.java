@@ -2,9 +2,10 @@ package fr.epita.iam.launcher;
 
 import java.util.Scanner;
 
-import fr.epita.iam.business.CreateActivity;
 
-public class ConsoleLauncher2 {
+import fr.epita.iam.business.CreateFileActivity;
+
+public class ConsoleFileLauncher {
 	
 	public static void main(String[] args){
 		System.out.println("Welcome to the IAM software");
@@ -25,7 +26,7 @@ public class ConsoleLauncher2 {
 		case "1":
 			//create
 			//CreateActivity createActivity = new CreateActivity();
-			CreateActivity.execute(scanner);
+			CreateFileActivity.execute(scanner);
 			break;
 		case "2":
 			//modify

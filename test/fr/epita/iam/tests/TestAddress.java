@@ -6,9 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,10 +16,14 @@ import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.exceptions.DAOInitializationException;
 import fr.epita.iam.services.AddressAttributeDAO;
 import fr.epita.iam.services.AddressDAO;
-import fr.epita.iam.services.AttributeDAO;
 import fr.epita.iam.services.Connector;
 import fr.epita.iam.services.IdentityDAO;
 
+/**
+ * Test adding an address to an Identity
+ * @author Gervaise ALINA
+ *
+ */
 public class TestAddress {
 
 	public static void main(String[] args) {

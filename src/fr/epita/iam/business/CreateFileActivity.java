@@ -1,15 +1,12 @@
 package fr.epita.iam.business;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.Scanner;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.FileIdentityDAO;
 
-public class CreateActivity2 {
+public class CreateFileActivity {
 	
 	public static void execute(Scanner scanner){
 		System.out.println("Identity Creation");

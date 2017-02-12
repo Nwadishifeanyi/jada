@@ -15,6 +15,11 @@ import java.util.logging.Logger;
 import fr.epita.iam.datamodel.Attribute;
 import fr.epita.iam.exceptions.DAOInitializationException;
 
+/**
+ * This class defines the attributes for an address
+ * @author Gervaise ALINA
+ *
+ */
 public class AddressAttributeDAO implements DAO<Attribute> {
 	
 	private Connection connection;

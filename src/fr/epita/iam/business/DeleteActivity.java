@@ -1,53 +1,40 @@
 package fr.epita.iam.business;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+
+import java.util.List;
+import java.util.Scanner;
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.launcher.ConsoleLauncher;
-import fr.epita.iam.services.FileIdentityDAO;
 import fr.epita.iam.services.IdentityDAO;
 
-public class DeleteActivity {
+/**
+ * This class allows to delete an Identity selected by the user
+ * @author Gervaise ALINA
+ *
+ */
+public class DeleteActivity extends Activity {
 	
-
-	private static java.sql.Date getDate(String birthday_str) {
-		java.sql.Date birthDay = null;
-		try{
-			SimpleDateFormat  dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-			java.util.Date date = dateFormat.parse(birthday_str);
-			birthDay = new java.sql.Date(date.getTime());
-		}
-		catch(ParseException e){
-			Logger.getLogger(DeleteActivity.class.getName()).log(Level.SEVERE, null, e);
-			System.out.println("please enter a date format dd-mm-yyyy");
-		}
-		return birthDay;
-	}
+	/**
+	 * This method delete an existing Identity
+	 * @param scanner: Get user selection
+	 */
 	public static void execute(Scanner scanner){
-		System.out.println("Identity Update");
+		System.out.println("Identity Deleting");
 		IdentityDAO identityDAO = new IdentityDAO();
 		List<Identity> identities = identityDAO.readAll();
-		Map<String, Identity> foundIdentities = new HashMap<>();
+		
 		System.out.println("Select an identity id");
 		for(Identity i : identities){
-			System.out.println("Identity "+i.getUid()+ " "+i);
+			System.out.println("ID : "+i.getUid()+ " \n"+i);
 		}
 		String identity_id = scanner.nextLine();
+		if (identity_id.isEmpty()) {
+			System.out.println("Did not understand you answer ");
+			return;
+		}
 		Identity foundIdentity = identityDAO.find(identity_id);
 		if (foundIdentity == null){
-			System.out.println("Did not find identity "+identity_id);
+			System.out.println("Did not find identity: "+identity_id);
 		}
 		else{
 			System.out.println("Do you really want to "
@@ -55,7 +42,7 @@ public class DeleteActivity {
 			String answer = scanner.nextLine();
 			if (answer.equalsIgnoreCase("y")){
 				//persist the identity somewhere
-				System.out.println("this is the identity you created"+foundIdentity);
+				System.out.println("This is the identity you want to delete: \n"+foundIdentity);
 				identityDAO.delete(foundIdentity);
 				System.out.println("delete Done");
 			}

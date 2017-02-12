@@ -4,6 +4,11 @@ package fr.epita.iam.datamodel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class define an Address
+ * @author Gervaise ALINA
+ *
+ */
 public class Address {
 	private String addressID;
 	private String identityID;

@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,15 +38,17 @@ public class IdentityDAO implements DAO<Identity> {
 		
 		connection = Connector.getConnection();
 		try {
-			String sql = "insert into IDENTITIES (DISPLAY_NAME, EMAIL, BIRTHDAY, ISADMIN)"
-					+" values (?, ?, ?, ?)";
+			String sql = "insert into IDENTITIES (DISPLAY_NAME, EMAIL, "
+					+ "BIRTHDAY, PASSWORD, ISADMIN)"
+					+" values (?, ?, ?, ?, ?)";
 			PreparedStatement statement = connection.prepareStatement(sql,
 											Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, entity.getDisplayName());
 			statement.setString(2, entity.getEmail());
 			statement.setDate(3, entity.getBirthday());
+			statement.setString(4, entity.getPassword());
 			int isAdmin = (entity.isAdmin())?1:0;
-			statement.setInt(4, isAdmin);
+			statement.setInt(5, isAdmin);
 			statement.executeUpdate();
 			ResultSet result = statement.getGeneratedKeys();
 			AttributeDAO  attributeDAO = new AttributeDAO();
@@ -86,15 +86,17 @@ public class IdentityDAO implements DAO<Identity> {
 			String sql = "update IDENTITIES  set EMAIL=?, "
 					+ "DISPLAY_NAME=?, "
 					+ "BIRTHDAY=?, "
+					+ "PASSWORD=?, "
 					+ "ISADMIN=?"
 					+" where IDENTITY_ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, entity.getEmail());
 			statement.setString(2, entity.getDisplayName());
 			statement.setDate(3, entity.getBirthday());
+			statement.setString(4, entity.getPassword());
 			int isAdmin = (entity.isAdmin())?1:0;
-			statement.setInt(4, isAdmin);
-			statement.setString(5, entity.getUid());
+			statement.setInt(5, isAdmin);
+			statement.setString(6, entity.getUid());
 			statement.executeUpdate();
 			statement.close();
 			sql = "select *  from ATTRIBUTE  where IDENTITY_ID=?";
@@ -193,6 +195,8 @@ public class IdentityDAO implements DAO<Identity> {
 				String displayName = result.getString("display_name");
 				String email = result.getString("email");
 				Date birthday = result.getDate("BIRTHDAY");
+				String password = result.getString("PASSWORD");
+				boolean isadmin = (result.getInt("ISADMIN")==1)? true:false;
 				String name = result.getString("name");
 				String value = result.getString("value");
 				Identity identity;
@@ -203,8 +207,9 @@ public class IdentityDAO implements DAO<Identity> {
 						}
 					}
 					else{
-						identity = new Identity(uid, displayName, email);
-						identity.setBirthday(birthday);
+						identity = new Identity(uid, displayName, 
+								email, birthday, password);
+						identity.setAdmin(isadmin);
 						if (name != null){
 							identity.setAttribute(name, value);
 						}

@@ -1,8 +1,6 @@
 package fr.epita.iam.datamodel;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,9 +16,9 @@ public class Identity {
 	private Map<String, String> attributes = new HashMap<String, String>();
 	private Set<Address> addresses = new HashSet<Address>();
 	/**
-	 * @param uid
-	 * @param displayName
-	 * @param email
+	 * @param uid: Identity ID
+	 * @param displayName: The name of the user
+	 * @param email: Email of the user
 	 */
 	public Identity(String uid, String displayName, String email) {
 		super();

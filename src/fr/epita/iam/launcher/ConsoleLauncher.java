@@ -10,6 +10,11 @@ import fr.epita.iam.business.DeleteActivity;
 import fr.epita.iam.business.UpdateActivity;
 import fr.epita.iam.services.Connector;
 
+/**
+ * This class is the main class of the project IAM  
+ * @author Gervaise ALINA
+ *
+ */
 public class ConsoleLauncher {
 	
 	public static void main(String[] args){

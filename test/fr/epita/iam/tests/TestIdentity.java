@@ -19,6 +19,11 @@ import fr.epita.iam.services.AttributeDAO;
 import fr.epita.iam.services.Connector;
 import fr.epita.iam.services.IdentityDAO;
 
+/**
+ * Test delete, create, find, modify identities in database
+ * @author Gervaise ALINA
+ *
+ */
 public class TestIdentity {
 
 	public static void main(String[] args) {

@@ -13,7 +13,11 @@ import java.util.logging.Logger;
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.services.Connector;
 
-
+/**
+ * Test the connection to the database
+ * @author Gervaise ALINA
+ *
+ */
 public class TestConnection {
 
 	public static void main(String[] args) {
