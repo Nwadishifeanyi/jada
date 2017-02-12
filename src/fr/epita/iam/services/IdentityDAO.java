@@ -85,7 +85,7 @@ public class IdentityDAO implements DAO<Identity> {
 		try {
 			String sql = "update IDENTITIES  set EMAIL=?, "
 					+ "DISPLAY_NAME=?, "
-					+ "BIRTHDAY=?"
+					+ "BIRTHDAY=?, "
 					+ "ISADMIN=?"
 					+" where IDENTITY_ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -265,7 +265,7 @@ public class IdentityDAO implements DAO<Identity> {
 		try {
 			String sql = "select * from IDENTITIES where IDENTITY_ID = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setInt(1, (int)id);
+			statement.setInt(1, Integer.parseInt(id.toString()));
 			
 			ResultSet result = statement.executeQuery();
 			if (result.next()){

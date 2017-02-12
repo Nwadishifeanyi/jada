@@ -1,6 +1,8 @@
 package fr.epita.iam.datamodel;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,6 +29,16 @@ public class Identity {
 		this.email = email;
 	}
 	
+	public Identity(String uid, String displayName,
+			String email, Date birthday, String password) {
+		super();
+		this.uid = uid;
+		this.displayName = displayName;
+		this.email = email;
+		this.birthday = birthday;
+		this.password = password;
+	}
+
 	public boolean isAdmin() {
 		return isAdmin;
 	}
@@ -121,6 +133,7 @@ public class Identity {
 				", isAdmin=" + this.isAdmin +
 				", displayName=" + this.displayName +
 				", email=" + this.email +
+				", password=" + this.password +
 				", birthday= "+this.birthday +
 				", " + attributesStr.toString()+
 				""+ addressStr.toString()+"]";

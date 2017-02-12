@@ -18,7 +18,7 @@ public class Connector  {
 	private Connector(){
 		getConnection();
 	}
-	private static ResourceBundle getConnectionProperties()throws ConfigException{
+	public static ResourceBundle getConnectionProperties()throws ConfigException{
 	    props = ResourceBundle.getBundle("fr.epita.iam.config.config");
 		if (props == null){
 			throw new ConfigException();

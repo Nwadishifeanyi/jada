@@ -1,8 +1,14 @@
 package fr.epita.iam.launcher;
 
+import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import fr.epita.iam.business.CreateActivity;
+import fr.epita.iam.business.DeleteActivity;
+import fr.epita.iam.business.UpdateActivity;
+import fr.epita.iam.services.Connector;
 
 public class ConsoleLauncher {
 	
@@ -10,34 +16,42 @@ public class ConsoleLauncher {
 		System.out.println("Welcome to the IAM software");
 		Scanner scanner = new Scanner(System.in);
 		//Authentification
-		/*if (authenticate(scanner)){
-			end(scanner);
-			return;
-		}*/
-		//menu
-		System.out.println("Please select an action: ");
-		System.out.println("1, Create an identity");
-		System.out.println("2, Modify an identity");
-		System.out.println("3, delete an identity");
-		String choice = scanner.nextLine();
-		
-		switch (choice) {
-		case "1":
-			//create
-			//CreateActivity createActivity = new CreateActivity();
-			CreateActivity.execute(scanner);
-			break;
-		case "2":
-			//modify
-			break;
-		case "3":
-			//delete
-			break;
-		case "q":
-			//Quit
-			break;
-		default:
-			System.out.println("Your choice is not recognized");
+		if (authenticate(scanner)){
+			String answer = "y";
+			while(answer.equalsIgnoreCase("y")){
+				//menu
+				System.out.println("Please select an action: ");
+				System.out.println("1, Create an identity");
+				System.out.println("2, Modify an identity");
+				System.out.println("3, delete an identity");
+				String choice = scanner.nextLine();
+				
+				switch (choice) {
+					case "1":
+						//create
+						CreateActivity.execute(scanner);
+						break;
+					case "2":
+						//modify
+						UpdateActivity.execute(scanner);
+						break;
+					case "3":
+						//delete
+						DeleteActivity.execute(scanner);
+						break;
+					case "q":
+						//Quit
+						answer= "n";
+						break;
+					default:
+						System.out.println("Your choice is not recognized");
+				}
+				System.out.println("Do you want to continue: y/n?");
+				answer = scanner.nextLine();
+				if (!answer.equalsIgnoreCase("y")){
+					break;
+				}
+			}
 		}
 		end(scanner);
 	}
@@ -52,16 +66,24 @@ public class ConsoleLauncher {
 		String login = scanner.nextLine();
 		System.out.println("Please typer your password");
 		String password = scanner.nextLine();
-		
-		
-		if (login.equals("admin") && password.equals("admin")){
-			System.out.println("Authenfication was Successfull");
-			return true;
+		boolean flag = false;
+		try{
+			ResourceBundle props = Connector.getConnectionProperties(); 
+				if (login.equals(props.getString("user")) 
+						&& password.equals(props.getString("password"))){
+					System.out.println("Authenfication was Successfull");
+					flag = true;
+				}
+				else{
+					System.out.println("Authentifaction failed");
+					scanner.close();
+					flag = false;
+				}
 		}
-		else{
-			System.out.println("Authentifaction failed");
-			scanner.close();
+		catch(Exception e){
+			Logger.getLogger(ConsoleLauncher.class.getName()).log(Level.SEVERE, null, e);
 			return false;
 		}
+		return flag;
 	}
 }
