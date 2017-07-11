@@ -9,7 +9,7 @@ import fr.epita.iam.exceptions.DAOInitializationException;
 /**
  * This interface defines the operations required to update the table 
  * of the database
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  * @param <T>: T is a user defined type
  */

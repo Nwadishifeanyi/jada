@@ -21,7 +21,7 @@ import fr.epita.iam.services.IdentityDAO;
 
 /**
  * Test delete, create, find, modify identities in database
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class TestIdentity {

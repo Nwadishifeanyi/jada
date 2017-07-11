@@ -8,7 +8,7 @@ import fr.epita.iam.services.FileIdentityDAO;
 
 /**
  * Test creation of identity using files
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class TestFiles {

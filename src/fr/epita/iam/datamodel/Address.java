@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * This class define an Address
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class Address {

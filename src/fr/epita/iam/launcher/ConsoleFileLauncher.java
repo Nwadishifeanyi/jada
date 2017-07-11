@@ -8,7 +8,8 @@ import fr.epita.iam.business.CreateFileActivity;
 public class ConsoleFileLauncher {
 	
 	public static void main(String[] args){
-		System.out.println("Welcome to the IAM software");
+		System.out.println("Welcome to the IAM CORE");
+		System.out.println("What would you like to do today?");
 		Scanner scanner = new Scanner(System.in);
 		//Authentification
 		/*if (authenticate(scanner)){
@@ -20,6 +21,8 @@ public class ConsoleFileLauncher {
 		System.out.println("1, Create an identity");
 		System.out.println("2, Modify an identity");
 		System.out.println("3, delete an identity");
+		System.out.println("4, list an identity");
+		System.out.println("5, exit");
 		String choice = scanner.nextLine();
 		
 		switch (choice) {
@@ -34,24 +37,24 @@ public class ConsoleFileLauncher {
 		case "3":
 			//delete
 			break;
-		case "q":
+		case "5":
 			//Quit
 			break;
 		default:
-			System.out.println("Your choice is not recognized");
+			System.out.println("invalid selection,try again...");
 		}
 		end(scanner);
 	}
 
 	private static void end(Scanner scanner) {
-		System.out.print("Thank you for using this application , goodbye");
+		System.out.print("Thank you for using this application , Have a great day");
 		scanner.close();
 	}
 
 	private static boolean authenticate(Scanner scanner) {
-		System.out.println("Please typer your login");
+		System.out.println("Please enter your username");
 		String login = scanner.nextLine();
-		System.out.println("Please typer your password");
+		System.out.println("Please enter your password");
 		String password = scanner.nextLine();
 		
 		
@@ -65,4 +68,6 @@ public class ConsoleFileLauncher {
 			return false;
 		}
 	}
+	
 }
+

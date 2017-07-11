@@ -17,7 +17,7 @@ import fr.epita.iam.exceptions.DAOInitializationException;
 
 /**
  * This class defines the attributes for an address
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class AddressAttributeDAO implements DAO<Attribute> {

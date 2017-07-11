@@ -21,7 +21,7 @@ import fr.epita.iam.services.IdentityDAO;
 
 /**
  * Test adding an address to an Identity
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class TestAddress {

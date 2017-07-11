@@ -15,7 +15,7 @@ import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.exceptions.DAOInitializationException;
 
 /**
- * @author tbrou
+ * @author Nwadishi Ifeanyi
  *
  */
 

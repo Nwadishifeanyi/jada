@@ -15,7 +15,7 @@ import fr.epita.iam.services.Connector;
 
 /**
  * Test the connection to the database
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class TestConnection {

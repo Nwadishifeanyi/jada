@@ -12,13 +12,13 @@ import fr.epita.iam.services.Connector;
 
 /**
  * This class is the main class of the project IAM  
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class ConsoleLauncher {
 	
 	public static void main(String[] args){
-		System.out.println("Welcome to the IAM software");
+		System.out.println("Welcome to the IAM CORE");
 		Scanner scanner = new Scanner(System.in);
 		//Authentification
 		if (authenticate(scanner)){
@@ -29,6 +29,8 @@ public class ConsoleLauncher {
 				System.out.println("1, Create an identity");
 				System.out.println("2, Modify an identity");
 				System.out.println("3, delete an identity");
+				System.out.println("4, list an identity");
+				System.out.println("5, exit");
 				String choice = scanner.nextLine();
 				
 				switch (choice) {
@@ -44,12 +46,12 @@ public class ConsoleLauncher {
 						//delete
 						DeleteActivity.execute(scanner);
 						break;
-					case "q":
+					case "5":
 						//Quit
 						answer= "n";
 						break;
 					default:
-						System.out.println("Your choice is not recognized");
+						System.out.println("invalid selection");
 				}
 				System.out.println("Do you want to continue: y/n?");
 				answer = scanner.nextLine();

@@ -13,7 +13,7 @@ import fr.epita.iam.services.IdentityDAO;
 
 /**
  * This class allows to update an Identity using user inputs
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class UpdateActivity extends Activity{

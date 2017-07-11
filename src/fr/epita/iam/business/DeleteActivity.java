@@ -9,7 +9,7 @@ import fr.epita.iam.services.IdentityDAO;
 
 /**
  * This class allows to delete an Identity selected by the user
- * @author Gervaise ALINA
+ * @author Nwadishi Ifeanyi
  *
  */
 public class DeleteActivity extends Activity {
