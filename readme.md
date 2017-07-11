@@ -1,5 +1,5 @@
 Welcome to IAM project:
-- It is an interactive console application that allows you to create,  delete,    modify identities. Read to the User Guide.pdf for further help.
+- It is an interactive console application that allows you to create,  delete,    modify, list all identities. Read to the User Guide.pdf for further help.
 
 
 This application was build using JDK 1.8 
