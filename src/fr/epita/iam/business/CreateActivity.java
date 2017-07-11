@@ -13,7 +13,7 @@ import fr.epita.iam.services.IdentityDAO;
 /**
  * CreateActivity is a class that allows to create an Identity using
  * user inputs
- * @author Nwadishi Ifeanyi
+ * @author Nwadishi 
  *
  */
 public class CreateActivity extends Activity{
